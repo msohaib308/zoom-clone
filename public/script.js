@@ -11,7 +11,7 @@ myVideo.muted = true; //ensures you are not hearing your own voice
 var peer = new Peer(undefined, {
     path: '/peerjs',
     host: '/',
-    port: '3030' //3030 because local host 3030
+    port: '443' //3030 because local host 3030
 }); //create a peer
 
 
