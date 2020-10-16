@@ -37,4 +37,7 @@ io.on('connection', socket => {
 })//when we visit a site, we join a room. We inform the socket that we have joined the room. receives from socket.emit
 
 
-server.listen(3030); //local host at 3030
+server.listen(process.env.PORT || 3030); //local host at 3030 or it can work on heroku server
+
+// server.listen(process.env.PORT || 3000);
+// app.listen(port_number);
