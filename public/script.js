@@ -6,12 +6,42 @@ const videoGrid = document.getElementById('video-grid'); //links to video grid i
 const myVideo = document.createElement('video'); //creates video element
 myVideo.muted = true; //ensures you are not hearing your own voice
 
+const iceServers = [
+    {
+        "credential": null,
+        "username": null,
+        "url": "stun:global.stun.twilio.com:3478?transport=udp",
+        "urls": "stun:global.stun.twilio.com:3478?transport=udp"
+    },
+    {
+        "credential": "vBdWSE8sAMpi0Q2JQtUG+CPRjTuMQUvQNYNidWE62Po=",
+        "username": "827e9e8dd0aada75c8b449780c2947b683d3c462897d77e040b945bb73d96421",
+        "url": "turn:global.turn.twilio.com:3478?transport=udp",
+        "urls": "turn:global.turn.twilio.com:3478?transport=udp"
+    },
+    {
+        "credential": "vBdWSE8sAMpi0Q2JQtUG+CPRjTuMQUvQNYNidWE62Po=",
+        "username": "827e9e8dd0aada75c8b449780c2947b683d3c462897d77e040b945bb73d96421",
+        "url": "turn:global.turn.twilio.com:3478?transport=tcp",
+        "urls": "turn:global.turn.twilio.com:3478?transport=tcp"
+    },
+    {
+        "credential": "vBdWSE8sAMpi0Q2JQtUG+CPRjTuMQUvQNYNidWE62Po=",
+        "username": "827e9e8dd0aada75c8b449780c2947b683d3c462897d77e040b945bb73d96421",
+        "url": "turn:global.turn.twilio.com:443?transport=tcp",
+        "urls": "turn:global.turn.twilio.com:443?transport=tcp"
+    }
+];
 
 
-var peer = new Peer(undefined, {
+var peer = new Peer({
+    config: {
+        iceServers: iceServers
+    }
+}, {
     path: '/peerjs',
     host: '/',
-    port: '443' //3030 because local host 3030
+    port: '3030' //3030 because local host 3030
 }); //create a peer
 
 
@@ -111,7 +141,7 @@ socket.on('createMessage', message =>{
     $('ul').append(`<li class = "message"><b>user</b><br/>${message}</li>`) // when every message, class message will have user and the message the user sends
 })*/
 
-const scrollToBottom = () =>{ //function that allows chat to autoscroll downwards during overflow
+const scrollToBottom = () => { //function that allows chat to autoscroll downwards during overflow
     var d = $('.main__chat_window');
     d.scrollTop(d.prop("scrollHeight"))
 
@@ -120,15 +150,15 @@ const scrollToBottom = () =>{ //function that allows chat to autoscroll downward
 //add a function for stop and mute buttons
 
 //Mute our video
-const muteUnmute = () =>{
+const muteUnmute = () => {
     console.log(myVideoStream)
     const enabled = myVideoStream.getAudioTracks()[0].enabled; //get current enabled audo tracj
-    if(enabled){
+    if (enabled) {
         myVideoStream.getAudioTracks()[0].enabled = false; //set audio to false
         setUnmuteButton(); //button icon changes depending on mute or unmute
-    } else{
+    } else {
         setMuteButton();
-        myVideoStream.getAudioTracks()[0].enabled=true;
+        myVideoStream.getAudioTracks()[0].enabled = true;
     }
 }
 
@@ -151,12 +181,12 @@ const setUnmuteButton = () => {
 const playStop = () => {
     //console.log(myVideoStream)
     let enabled = myVideoStream.getVideoTracks()[0].enabled;
-    if(enabled){
+    if (enabled) {
         myVideoStream.getVideoTracks()[0].enabled = false;
         setPlayVideo() //if video is enabled, disable
     } else {
         setStopVideo()
-        myVideoStream.getVideoTracks()[0].enabled=true; //if video is disabled, enable video
+        myVideoStream.getVideoTracks()[0].enabled = true; //if video is disabled, enable video
     }
 }
 
